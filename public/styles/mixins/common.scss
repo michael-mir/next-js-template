@@ -1,0 +1,26 @@
+@mixin animation($type: all, $time: 0.25s, $animation: ease-in-out) {
+  transition-timing-function: $animation;
+  transition-property: #{$type};
+  transition-duration: $time;
+}
+
+@mixin hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@mixin visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+@mixin border($color: $gray) {
+  border: $border $color;
+}
+
+@mixin d-flex($x: center, $y: center) {
+  display: flex;
+  align-items: $x;
+  justify-content: $y;
+}
+
