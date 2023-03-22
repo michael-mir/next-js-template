@@ -1,30 +1,37 @@
-const path = require('path');
+const { PHASE_PRODUCTION_BUILD } = require('next/dist/shared/lib/constants');
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  compress: true, // default === true
-  cleanDistDir: true, // default === true
-  swcMinify: true, // Off if u need Terser
-  reactStrictMode: true,
-  transpilePackages: ['lodash-es'],
-  modularizeImports: { // [babel-plugin-transform-imports]
-    lodash: {
-      transform: 'lodash/{{member}}',
-      preventFullImport: true,
+module.exports = (phase) => {
+  const isProdBuild = phase === PHASE_PRODUCTION_BUILD;
+  /** @type {import('next').NextConfig} */
+  const config = {
+    compress: true, // default
+    swcMinify: true, // default || Terser
+    cleanDistDir: true, // default
+    reactStrictMode: true,
+    transpilePackages: ['lodash-es'],
+    // [babel-plugin-transform-imports]:
+    modularizeImports: {
+      lodash: {
+        transform: 'lodash/{{member}}',
+        preventFullImport: true,
+      },
     },
-  },
-  experimental: {
-    // optimizeCss: true, <-- need "Critters" package
-    forceSwcTransforms: true, // Off Babel => On SWC
-  },
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'public/styles')],
-    prependData: '@import "mixins";',
-  },
-  compiler: {
-    removeConsole: { exclude: ['info', 'error'] }, // [babel-plugin-react-remove-properties]
-    reactRemoveProperties: { properties: ['^data-testid$'] }, // [babel-plugin-transform-remove-console]
-  },
-};
+    experimental: {
+      forceSwcTransforms: true, // SWC || Babel
+      // optimizeCss: true // Use "Critters" package
+    },
+    sassOptions: {
+      prependData: '@import "mixins";',
+    },
+    compiler: {
+      ...(isProdBuild && {
+        // [babel-plugin-react-remove-properties]:
+        reactRemoveProperties: { properties: ['^data-testid$'] },
+        // [babel-plugin-transform-remove-console]:
+        removeConsole: { exclude: ['info', 'error'] },
+      }),
+    },
+  };
 
-module.exports = nextConfig;
+  return config;
+};

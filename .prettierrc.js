@@ -1,14 +1,15 @@
+// https://prettier.io/docs/en/options
+
 module.exports = {
-  semi: true,
-  tabWidth: 2,
-  endOfLine: 'lf',
   printWidth: 100,
   singleQuote: true,
-  insertPragma: false,
-  proseWrap: 'always',
-  bracketSpacing: true,
-  requirePragma: false,
   trailingComma: 'all',
+  jsxSingleQuote: true,
+  // Default
+  semi: true,
+  tabWidth: 2,
+  useTabs: false,
+  endOfLine: 'lf',
+  bracketSpacing: true,
   arrowParens: 'always',
-  jsxBracketSameLine: true
-}
+};

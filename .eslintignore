@@ -4,6 +4,10 @@
 *.jpg
 *.woff
 
+# Config files
+*.config.js
+*.setup.js
+
 # Node artifact files
 /node_modules
 /dist

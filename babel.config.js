@@ -9,22 +9,5 @@
 */
 
 module.exports = {
-  presets: [['next/babel']],
-  plugins: [[
-    'transform-imports', {
-      lodash: {
-        transform: member => `lodash/${member}`,
-        preventFullImport: true,
-      },
-    },
-  ]],
-
-  env: {
-    production: {
-      plugins: [
-        ['react-remove-properties', { properties: ['data-testid'] }],
-        'transform-remove-console',
-      ],
-    },
-  },
+  presets: ['next/babel'],
 };

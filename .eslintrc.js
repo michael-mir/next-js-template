@@ -12,7 +12,6 @@ module.exports = {
     ecmaFeatures: { jsx: true },
     project: './tsconfig.eslint.json',
   },
-  parser: '@typescript-eslint/parser',
   env: {
     es2021: true,
     browser: true,
@@ -21,40 +20,67 @@ module.exports = {
     'airbnb',
     'airbnb/hooks',
     'airbnb-typescript',
-    'prettier',
-    'next',
+    'plugin:prettier/recommended',
+    'plugin:@next/next/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
-  plugins: [
-    'simple-import-sort',
-    'prettier',
-  ],
+  plugins: ['simple-import-sort'],
   rules: {
     // ERROR
-    quotes: [2, 'single'],
-    'eol-last': [2, 'always'],
-    'no-tabs': [2, { 'allowIndentationTabs': true }],
-    'no-restricted-imports': [2, {
-      paths: [{
-        name: 'lodash',
-        message: 'Please use lodash/* instead.',
-      }],
-    }],
+    'no-tabs': [2, { allowIndentationTabs: true }],
+    'no-restricted-imports': [
+      2,
+      {
+        paths: [
+          {
+            name: 'lodash',
+            message: 'Please use lodash/* instead.',
+          },
+        ],
+      },
+    ],
+    '@typescript-eslint/consistent-type-imports': [2, { disallowTypeAnnotations: false }],
     // WARN
-    'semi': [1, 'always', { 'omitLastInOneLineBlock': true }],
-    'arrow-body-style': [1, 'as-needed'],
+    'prettier/prettier': [1],
+    semi: [1, 'always', { omitLastInOneLineBlock: true }],
     'comma-dangle': [1, 'only-multiline'],
     'simple-import-sort/exports': [1],
-    'simple-import-sort/imports': [1],
-    'max-len': [1, {
-      'code': 100,
-      ignoreComments: true,
-      ignoreTrailingComments: true,
-      ignoreTemplateLiterals: true,
-    }],
-    'no-console': [1, { 'allow': ['info', 'error'] }],
+    'simple-import-sort/imports': [
+      1,
+      {
+        groups: [
+          // External packages:
+          ['^react', '^@?\\w'],
+          // Internal packages:
+          ['^@(/.*|$)'],
+          // Side effect imports:
+          ['^\\u0000'],
+          // Parent imports:
+          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+          // Other relative imports:
+          ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+          // Style imports:
+          ['^.+\\.s?css$'],
+        ],
+      },
+    ],
+    'max-len': [
+      1,
+      {
+        code: 100,
+        ignoreComments: true,
+        ignoreTrailingComments: true,
+        ignoreTemplateLiterals: true,
+      },
+    ],
+    'no-console': [1, { allow: ['info', 'error'] }],
     // OFF
-    'import/prefer-default-export': [0],
-    'react/jsx-props-no-spreading': [0],
-    'react/function-component-definition': [0],
+    'sort-imports': 0,
+    'react/react-in-jsx-scope': 0,
+    'import/prefer-default-export': 0,
+    'react/jsx-props-no-spreading': 0,
+    'import/no-extraneous-dependencies': 0,
+    'react/function-component-definition': 0,
   },
 };
